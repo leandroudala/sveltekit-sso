@@ -1,9 +1,12 @@
-<script type="ts">
-    export let theme = true;
-
+<script lang="ts">
+    import type { ActionData } from './$types';
     import LightLogo from "$lib/images/logo-white.png";
     import DarkLogo from "$lib/images/logo_dark.jpeg";
 
+    export let theme = true;
+    export let form: ActionData;
+
+    console.log({ form });
     $: vars = `--background-image: url('${theme ? LightLogo : DarkLogo}')`;
 </script>
 <svelte:head>
@@ -11,16 +14,22 @@
     <meta name="description" content="Entrar" />
 </svelte:head>
 
-<form>
+<form method="POST" action="?/login">
     <div class="logo" class:light={theme} class:dark={!theme} style={vars}></div>
     <div class="fields">
         <div>
             <label for="user">Usuário</label>
-            <input type="text" name="user" id="user">
+            <input type="text" name="user" id="user" value="{form?.user ?? ''}">
+            <span class="error">
+                {#if form?.missing }O usuário é obrigatório{/if}
+            </span>
         </div>
         <div>
             <label for="pass">Senha</label>
             <input type="password" name="pass" id="pass">
+            <span class="error">
+                {#if form?.missingPassword }O usuário é obrigatório{/if}
+            </span>
         </div>
         <div class="actions">
             <a href="#forgot-password">Esqueci a senha</a>
@@ -33,6 +42,10 @@
     .actions {
         display: flex;
         justify-content: space-between;
+    }
+
+    .error {
+        color: #F00;
     }
     
     .actions button {

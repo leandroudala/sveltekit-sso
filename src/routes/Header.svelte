@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { browser } from '$app/environment';
 
 	export let theme = true;
