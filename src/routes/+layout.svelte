@@ -3,7 +3,26 @@
 	import Header from './Header.svelte';
 	import { browser } from '$app/environment';
 
-	let theme = browser ? !(window.localStorage.getItem('theme') === 'false') : true;
+	function getTheme() {
+		// true = light mode
+		// false = dark mode
+		
+		// check if it is a browser
+		if (!browser) {
+			return true;
+		}
+
+		// check if theme exists
+		if (window.localStorage.getItem('theme') != null) {
+			return !(window.localStorage.getItem('theme') === 'false');
+		}
+
+		// if theme not exists, return browser preferences
+		const isBrowserDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+		return isBrowserDarkMode;
+	}
+
+	let theme = getTheme();
 </script>
 
 <div class="app" class:light={theme} class:dark={!theme}>

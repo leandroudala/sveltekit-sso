@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 
+	const hideNavbarWhen = new Set(['/', '/login'])
+
 	export let theme = true;
 
 	import { page } from '$app/stores';
@@ -19,7 +21,7 @@
 
 <header>
 	<div class="corner"></div>
-	{#if $page.url.pathname !== '/login'}
+	{#if !hideNavbarWhen.has($page.url.pathname) }
 		<nav>
 			<svg viewBox="0 0 2 3" aria-hidden="true">
 				<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />

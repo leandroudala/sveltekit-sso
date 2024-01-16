@@ -5,3 +5,5 @@ const defaultTheme = true;
 const selectedTheme = browser ? (window.localStorage.getItem('theme') ?? defaultTheme) : defaultTheme;
 
 export const theme = writable(selectedTheme);
+
+export const usernameStore = writable('');

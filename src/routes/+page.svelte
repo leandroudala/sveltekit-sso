@@ -1,7 +1,30 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+<script lang="ts">
+	import type { SubmitFunction } from '@sveltejs/kit';
+
+	import Logo from "./components/Logo.svelte";
+	import { enhance } from '$app/forms';
+	import Toast from './components/Toast.svelte';
+	import { usernameStore } from "$lib/stores";
+	import { goto } from '$app/navigation';
+
+	let toast: Toast;
+	let usernameInput: HTMLInputElement;
+
+	const submitCheckAvailability: SubmitFunction = ({ formData, cancel }) => {
+		// prevent default form action
+		cancel();
+
+		const username = formData.get("username");
+
+		if (!username) {
+			toast.showMessage('Informe um usuário');
+			usernameInput.focus();
+			return;
+		}
+	
+		usernameStore.set(username.toString());
+		goto("/login");
+	}
 </script>
 
 <svelte:head>
@@ -9,51 +32,68 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
+<section class="container">
+	<Toast bind:this={toast} />
+	<Logo />
 
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+	<div class="user-area">
+		<form method="POST" use:enhance={submitCheckAvailability}>
+			<div class="logon">
+				<label for="username">Usuário</label>
+				<input type="text" class="input-text" name="username" id="username" bind:this={usernameInput} value={$usernameStore}>
+			</div>
+			<div class="buttons">
+				<a href="?/register" class="register">Criar conta</a>
+				<button type="submit" class="button-primary">Login</button>
+			</div>
+		</form>
+	</div>
 </section>
 
 <style>
-	section {
+	:root {
+		--padding: 1em;
+	}
+	.container {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
-		flex: 0.6;
 	}
 
-	h1 {
+	.buttons {
 		width: 100%;
+		display: flex;
+		justify-content: space-between;
 	}
 
-	.welcome {
+	.user-area, .buttons {
+		flex: 1;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.user-area label {
+		font-weight: bold;
 		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
+		margin-bottom: .5em;
+	}
+	.user-area .logon {
+		margin-bottom: var(--padding);
 	}
 
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
+	button {
+		border: 0;
+		padding: 1em;
+		min-width: 100px;
 	}
+
+	.register {
+		padding: 1em 0;
+		text-decoration: none;
+	}
+	.register:hover {
+		text-decoration: underline;
+	}
+
 </style>

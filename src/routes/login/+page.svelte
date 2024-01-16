@@ -2,23 +2,27 @@
     import type { ActionData } from './$types';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
+    import { usernameStore } from "$lib/stores"
 
-    import LightLogo from "$lib/images/logo-white.png";
 	import Toast from '../components/Toast.svelte';
 	import { onMount } from 'svelte';
+	import Logo from '../components/Logo.svelte';
 
     export let theme = true;
     let form: ActionData;
     let toast: Toast;
 
     onMount(() => {
-        document.getElementById('user')?.focus();
+        let focusOn = 'user';
+        if ($usernameStore) {
+            focusOn = 'pass';
+        }
+
+        document.getElementById(focusOn)?.focus();
     });
 
-    $: vars = `--background-image: url('${LightLogo}')`;
-
     const submitLogin: SubmitFunction = ({ formData, formElement }) => {
-        const user = formData.get('user');
+        const user = formData.get('username');
         const password = formData.get('pass');
 
         if (!user) {
@@ -60,11 +64,11 @@
 <Toast bind:this={toast} />
 
 <form method="POST" use:enhance={submitLogin} action="?/login">
-    <div class="logo" class:light={theme} class:dark={!theme} style={vars}></div>
-    <div class="fields">
+    <Logo theme={theme} />
+    <div class="container">
         <div>
             <label for="user">Usuário</label>
-            <input type="text" name="user" id="user" value="{form?.user ?? ''}">
+            <input type="text" name="username" id="user" value="{$usernameStore ?? form?.user}">
         </div>
         <div>
             <label for="pass">Senha</label>
@@ -98,33 +102,6 @@
     .actions a {
         padding: 10px 0px;
     }
-    
-    .fields {
-        width: 50%;
-        padding: 1em;
-        box-sizing: border-box;
-    }
-    .logo {
-        display: inline-block;
-        width: 250px;
-        min-height: 250px;
-        background-color: #FFFFFF;
-        border-radius: 50%;
-        background-image: var(--background-image);
-        background-position: center;
-        background-repeat: no-repeat;
-        transition: 0.2s ease-in;
-    }
-
-    .light {
-        background-size: 110%;
-        background-color: #FFFFFF;
-    }
-
-    .dark {
-        background-size: 100%;
-        background-color: var(--dark-blue);
-    }
 
     form {
         flex: 1;
@@ -146,9 +123,4 @@
         box-sizing: border-box;
     }
 
-    @media (max-width: 600px) {
-        .fields {
-            width: 100%;
-        }
-    }
 </style>
