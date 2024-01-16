@@ -8,7 +8,6 @@
 	import { onMount } from 'svelte';
 	import Logo from '../components/Logo.svelte';
 
-    export let theme = true;
     let form: ActionData;
     let toast: Toast;
 
@@ -60,31 +59,44 @@
     <meta name="description" content="Entrar" />
 </svelte:head>
 
+<section class="container">
+    <Toast bind:this={toast} />
+    <Logo />
 
-<Toast bind:this={toast} />
-
-<form method="POST" use:enhance={submitLogin} action="?/login">
-    <Logo theme={theme} />
-    <div class="container">
-        <div>
-            <label for="user">Usuário</label>
-            <input type="text" name="username" id="user" value="{$usernameStore ?? form?.user}">
-        </div>
-        <div>
-            <label for="pass">Senha</label>
-            <input type="password" name="pass" id="pass">
-        </div>
-        <div class="actions">
-            <a href="#forgot-password">Esqueci a senha</a>
-            <button type="submit">Conectar</button>
-        </div>
+    <div class="user-area">
+        <form method="POST" use:enhance={submitLogin} action="?/login">
+            <div class="input-group">
+                <label for="user">Usuário</label>
+                <input type="text" class="input-text" name="username" id="user" value="{$usernameStore ?? form?.user}">
+            </div>
+            <div class="input-group">
+                <label for="pass">Senha</label>
+                <input type="password" class="input-text" name="pass" id="pass">
+            </div>
+            <div class="actions">
+                <a href="#forgot-password">Esqueci a senha</a>
+                <button type="submit">Conectar</button>
+            </div>
+        </form>
     </div>
-</form>
+</section>
 
 <style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    .user-area {
+        width: 100%;
+    }
     .actions {
         display: flex;
         justify-content: space-between;
+        width: 100%;
     }
     
     .actions button {
@@ -103,24 +115,12 @@
         padding: 10px 0px;
     }
 
-    form {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        align-content: space-around;
-    }
 
     form label {
         font-weight: bold;
         display: block;
+        margin-bottom: .5em;
     }
-    form input {
-        margin-bottom: 1em;
-        width: 100%;
-        padding: 12px 20px;
-        box-sizing: border-box;
-    }
+    
 
 </style>

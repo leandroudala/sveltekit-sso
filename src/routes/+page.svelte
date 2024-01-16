@@ -38,7 +38,7 @@
 
 	<div class="user-area">
 		<form method="POST" use:enhance={submitCheckAvailability}>
-			<div class="logon">
+			<div class="input-group">
 				<label for="username">Usuário</label>
 				<input type="text" class="input-text" name="username" id="username" bind:this={usernameInput} value={$usernameStore}>
 			</div>
@@ -51,9 +51,6 @@
 </section>
 
 <style>
-	:root {
-		--padding: 1em;
-	}
 	.container {
 		display: flex;
 		flex-direction: column;
@@ -78,9 +75,6 @@
 		font-weight: bold;
 		display: block;
 		margin-bottom: .5em;
-	}
-	.user-area .logon {
-		margin-bottom: var(--padding);
 	}
 
 	button {
