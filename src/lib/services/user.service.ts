@@ -20,6 +20,13 @@ export interface TokenDTO {
     type: string;
 }
 
+export interface UserDataDTO {
+    userId: number;
+    exp: number;
+    iat: number;
+    iss: string;
+}
+
 export default class UserService {
     private url = PUBLIC_HOST + '/users';
     private authUrl = PUBLIC_HOST + '/auth'
