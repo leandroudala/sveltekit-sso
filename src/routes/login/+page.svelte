@@ -1,35 +1,74 @@
 <script lang="ts">
     import type { ActionData } from './$types';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import { enhance } from '$app/forms';
+
     import LightLogo from "$lib/images/logo-white.png";
-    import DarkLogo from "$lib/images/logo_dark.jpeg";
+	import Toast from '../components/Toast.svelte';
+	import { onMount } from 'svelte';
 
     export let theme = true;
-    export let form: ActionData;
+    let form: ActionData;
+    let toast: Toast;
 
-    console.log({ form });
-    $: vars = `--background-image: url('${theme ? LightLogo : DarkLogo}')`;
+    onMount(() => {
+        document.getElementById('user')?.focus();
+    });
+
+    $: vars = `--background-image: url('${LightLogo}')`;
+
+    const submitLogin: SubmitFunction = ({ formData, formElement }) => {
+        const user = formData.get('user');
+        const password = formData.get('pass');
+
+        if (!user) {
+            toast.showMessage('Informe o usuário.');
+            formElement.user.focus();
+            return;
+        }
+
+        if (!password) {
+            toast.showMessage('Informe a senha.');
+            formElement.pass.focus();
+            return;
+        }
+    
+        return async ({result, update}) => {
+            switch(result.type) {
+                case 'success':
+                    toast.showMessage('Olá!');
+                    break;
+                case 'failure':
+                    toast.showMessage('Credenciais inválidas');
+                    break;
+                default:
+                    toast.showMessage('Erro desconhecido!');
+                    break;
+            }
+
+            await update();
+        }
+    }
 </script>
+
 <svelte:head>
     <title>Entrar</title>
     <meta name="description" content="Entrar" />
 </svelte:head>
 
-<form method="POST" action="?/login">
+
+<Toast bind:this={toast} />
+
+<form method="POST" use:enhance={submitLogin} action="?/login">
     <div class="logo" class:light={theme} class:dark={!theme} style={vars}></div>
     <div class="fields">
         <div>
             <label for="user">Usuário</label>
             <input type="text" name="user" id="user" value="{form?.user ?? ''}">
-            <span class="error">
-                {#if form?.missing }O usuário é obrigatório{/if}
-            </span>
         </div>
         <div>
             <label for="pass">Senha</label>
             <input type="password" name="pass" id="pass">
-            <span class="error">
-                {#if form?.missingPassword }O usuário é obrigatório{/if}
-            </span>
         </div>
         <div class="actions">
             <a href="#forgot-password">Esqueci a senha</a>
@@ -42,10 +81,6 @@
     .actions {
         display: flex;
         justify-content: space-between;
-    }
-
-    .error {
-        color: #F00;
     }
     
     .actions button {
