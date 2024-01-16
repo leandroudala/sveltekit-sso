@@ -1,9 +1,10 @@
 <script>
-	import Header from './Header.svelte';
 	import './styles.css';
+	import { theme } from '$lib/stores';
+	import Header from './Header.svelte';
 </script>
 
-<div class="app">
+<div class="app" class:light={$theme} class:dark={!$theme}>
 	<Header />
 
 	<main>
@@ -11,7 +12,7 @@
 	</main>
 
 	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		<p>Criado por <a href="mailto:leandroudala@gmail.com">Leandro Udala</a>.</p>
 	</footer>
 </div>
 
@@ -20,13 +21,13 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+		align-items: stretch;
 	}
 
 	main {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
 		width: 100%;
 		max-width: 64rem;
 		margin: 0 auto;
