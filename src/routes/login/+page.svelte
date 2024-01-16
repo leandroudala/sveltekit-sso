@@ -56,7 +56,7 @@
 </script>
 
 <svelte:head>
-    <title>Entrar</title>
+    <title>SSO - Entrar</title>
     <meta name="description" content="Entrar" />
 </svelte:head>
 
