@@ -44,7 +44,7 @@
 			</div>
 			<div class="buttons">
 				<a href="?/register" class="register">Criar conta</a>
-				<button type="submit" class="button-primary">Login</button>
+				<button type="submit" class="button-primary">Entrar</button>
 			</div>
 		</form>
 	</div>
@@ -59,6 +59,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: center;
+		margin: 0 auto;
 	}
 
 	.buttons {

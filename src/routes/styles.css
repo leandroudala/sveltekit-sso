@@ -65,6 +65,10 @@ section {
 	padding: 12px 20px;
 }
 
+.button-primary {
+	font-weight: bold;
+}
+
 .dark .button-primary {
 	background-color: var(--light-blue);
 	color: var(--dark-blue);
