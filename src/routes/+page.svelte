@@ -6,11 +6,17 @@
 	import Toast from './components/Toast.svelte';
 	import { usernameStore } from "$lib/stores";
 	import { goto } from '$app/navigation';
+	import UserService, {type CheckAvailabilityResponseDTO } from "$lib/services/user.service";
 
 	let toast: Toast;
 	let usernameInput: HTMLInputElement;
+	const service = new UserService();
 
-	const submitCheckAvailability: SubmitFunction = ({ formData, cancel }) => {
+	const isUserExists = (data: CheckAvailabilityResponseDTO): boolean => {
+		return !data.emailAvailable || !data.usernameAvailable;
+	}
+
+	const submitCheckAvailability: SubmitFunction = async ({ formData, cancel }) => {
 		// prevent default form action
 		cancel();
 
@@ -21,9 +27,16 @@
 			usernameInput.focus();
 			return;
 		}
-	
-		usernameStore.set(username.toString());
-		goto("/login");
+
+		const data = await service.checkAvailability(username.toString());
+		if (isUserExists(data)) {
+			usernameStore.set(username.toString());
+			goto("/login");
+			return;
+		}
+
+		toast.showMessage('Usuário não encontrado.');
+		usernameInput.focus();
 	}
 </script>
 
