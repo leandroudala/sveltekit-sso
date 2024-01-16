@@ -1,11 +1,19 @@
 <script type="ts">
+	import { browser } from '$app/environment';
+
+	export let theme = true;
+
 	import { page } from '$app/stores';
 	import moon from '$lib/images/moon.svg';
 	import sun from '$lib/images/sun.svg';
-	import { theme } from '$lib/stores';
 
 	function toggleDarkMode() {
-		theme.set(!$theme);
+		theme = !theme
+		if (!browser) {
+			return;
+		}
+
+		localStorage.setItem('theme', '' + theme);
 	}
 </script>
 
@@ -35,11 +43,7 @@
 
 	<div class="corner">
 		<button type="button" class="dark-mode" on:click={toggleDarkMode}>
-			{#if $theme }
-				<img src={moon} alt="Ativar Dark Mode" />
-			{:else}
-				<img src={sun} alt="Ativar Light Mode" />
-			{/if}
+			<img src={theme ? moon : sun} alt="Mudar tema" />
 		</button>
 	</div>
 </header>

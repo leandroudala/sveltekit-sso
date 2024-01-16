@@ -1,9 +1,10 @@
 <script type="ts">
+    export let theme = true;
+
     import LightLogo from "$lib/images/logo-white.png";
     import DarkLogo from "$lib/images/logo_dark.jpeg";
-	import { theme } from "$lib/stores";
 
-    $: vars = `--background-image: url('${$theme ? LightLogo : DarkLogo}')`;
+    $: vars = `--background-image: url('${theme ? LightLogo : DarkLogo}')`;
 </script>
 <svelte:head>
     <title>Entrar</title>
@@ -11,7 +12,7 @@
 </svelte:head>
 
 <form>
-    <div class="logo" class:light={$theme} class:dark={!$theme} style={vars}></div>
+    <div class="logo" class:light={theme} class:dark={!theme} style={vars}></div>
     <div class="fields">
         <div>
             <label for="user">Usuário</label>

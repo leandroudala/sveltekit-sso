@@ -1,11 +1,13 @@
 <script>
 	import './styles.css';
-	import { theme } from '$lib/stores';
 	import Header from './Header.svelte';
+	import { browser } from '$app/environment';
+
+	let theme = browser ? !(window.localStorage.getItem('theme') === 'false') : true;
 </script>
 
-<div class="app" class:light={$theme} class:dark={!$theme}>
-	<Header />
+<div class="app" class:light={theme} class:dark={!theme}>
+	<Header bind:theme={theme} />
 
 	<main>
 		<slot />
