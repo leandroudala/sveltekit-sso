@@ -5,12 +5,25 @@ export interface CheckAvailabilityResponseDTO {
     usernameAvailable: boolean;
 }
 
-export default class UserService {
-    private url = PUBLIC_HOST;
+export interface LoginFormDTO {
+    login: string;
+    password: string;
+}
 
-    constructor() {
-        this.url += "/users";
-    }
+export interface ErrorDTO {
+    message: string;
+    statusCode: number;
+}
+
+export interface TokenDTO {
+    token: string;
+    type: string;
+}
+
+export default class UserService {
+    private url = PUBLIC_HOST + '/users';
+    private authUrl = PUBLIC_HOST + '/auth'
+
 
     async checkAvailability(user: string): Promise<CheckAvailabilityResponseDTO> {
         if (!user) {
@@ -25,5 +38,15 @@ export default class UserService {
         const url = this.url + path + '?' + params.toString()
         return fetch(url)
         .then(res => res.json());
+    }
+
+    async logon(credentials: LoginFormDTO): Promise<ErrorDTO | TokenDTO> {
+        return fetch(this.authUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(credentials)
+        }).then(res => res.json());
     }
 }

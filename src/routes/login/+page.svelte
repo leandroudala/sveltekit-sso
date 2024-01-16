@@ -49,7 +49,7 @@
                     break;
             }
 
-            await update();
+            await update({reset: false});
         }
     }
 </script>
@@ -67,7 +67,7 @@
         <form method="POST" use:enhance={submitLogin} action="?/login">
             <div class="input-group">
                 <label for="user">Usuário</label>
-                <input type="text" class="input-text" name="username" id="user" value="{$usernameStore ?? form?.user}">
+                <input type="text" class="input-text" name="username" id="user" value="{$usernameStore ?? form?.username}">
             </div>
             <div class="input-group">
                 <label for="pass">Senha</label>

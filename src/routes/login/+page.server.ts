@@ -1,21 +1,34 @@
+import UserService from '$lib/services/user.service.js';
 import { fail } from '@sveltejs/kit';
 
 /** @type {import('./$types').Actions} */
 export const actions = {
     login: async ({ cookies, request }) => {
         const data = await request.formData();
-        const user = data.get('user');
-        const password = data.get('pass');
+        const username = data.get('username') as string;
+        const password = data.get('pass') as string;
 
-        if (!user) {
-            return fail(400, {user, missing: true});
+        if (!username) {
+            return fail(400, {username, missing: true});
         }
 
         if (!password) {
-            return fail(400, {user, missingPassword: true});
+            return fail(400, {username, missingPassword: true});
         }
 
-        console.log({ user, password });
-        return { success: false}
+        const service = new UserService();
+        const logonResponse = await service.logon({login: username, password});
+
+        if (!('token' in logonResponse)) {
+            console.error('Could not login', {...logonResponse});
+            return fail(400, {username, invalidCredentials: true});
+        }
+
+        cookies.set('authorization', logonResponse.token, {
+            path: '/',
+            httpOnly: true
+        });
+
+        return { success: true };
     }
 }
