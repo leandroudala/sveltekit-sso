@@ -5,9 +5,10 @@
 </script>
 
 <section class="container">
+    <h1>Udala SSO</h1>
     <div class="w-100">
         <p>
-            Olá, {user.name}.
+            Olá, {user.name}!
         </p>
     
         <div class="text-right">

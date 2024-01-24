@@ -1,13 +1,7 @@
-import { getLoggedUser } from "$lib/utils/user.utils";
-import { redirect } from "@sveltejs/kit";
+import { authenticated } from '$lib/utils/user.utils.js';
 
-export function load({cookies}) {
-    const userData = getLoggedUser(cookies);
-
-    if (!userData) {
-        // user not logged in
-        throw redirect(303, '/');
-    }
+export function load({locals}) {
+    const userData = authenticated(locals);
 
     return {
         props: {userData}

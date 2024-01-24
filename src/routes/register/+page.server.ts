@@ -1,6 +1,6 @@
 import type { LoginFormDTO, UserFormDTO } from '$lib/services/user.service';
 import UserService from '$lib/services/user.service';
-import { setLogonCookies } from '$lib/utils/user.utils.js';
+import { anonymous, setLogonCookies } from '$lib/utils/user.utils.js';
 import { fail } from '@sveltejs/kit';
 
 const REQUIRED_FIELDS = ['name', 'email', 'username', 'password'];
@@ -28,6 +28,10 @@ function validateForm(formData: FormData): UserFormDTO {
         username: formData.get('username'),
         password: formData.get('password')
     } as UserFormDTO;
+}
+
+export function load({locals}) {
+    anonymous(locals);
 }
 
 export const actions = {

@@ -7,6 +7,7 @@
 	import Toast from '../components/Toast.svelte';
 	import { onMount } from 'svelte';
 	import Logo from '../components/Logo.svelte';
+	import { goto } from '$app/navigation';
 
     let form: ActionData;
     let toast: Toast;
@@ -40,6 +41,7 @@
             switch(result.type) {
                 case 'success':
                     toast.showMessage('Olá!');
+                    return goto("/home");
                     break;
                 case 'failure':
                     toast.showMessage('Credenciais inválidas');

@@ -46,7 +46,6 @@
         }
 
         return async ({result, update}) => {
-            console.log({ resultType: result.type});
 
             await update({reset: false});
         };

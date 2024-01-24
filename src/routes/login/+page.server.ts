@@ -1,9 +1,12 @@
 import UserService from '$lib/services/user.service.js';
-import { setLogonCookies } from '$lib/utils/user.utils';
-import { fail } from '@sveltejs/kit';
+import { anonymous, setLogonCookies } from '$lib/utils/user.utils';
+import { fail, type Actions } from '@sveltejs/kit';
 
-/** @type {import('./$types').Actions} */
-export const actions = {
+export function load({locals}) {
+    anonymous(locals);
+}
+
+export const actions: Actions = {
     login: async ({ cookies, request }) => {
         const data = await request.formData();
         const username = data.get('username') as string;
