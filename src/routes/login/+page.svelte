@@ -74,7 +74,7 @@
                 <input type="password" class="input-text" name="pass" id="pass">
             </div>
             <div class="actions">
-                <a href="#forgot-password">Esqueci a senha</a>
+                <a href="/forgot-password">Esqueci a senha</a>
                 <button type="submit">Conectar</button>
             </div>
         </form>

@@ -33,14 +33,6 @@
 	transition: background-color 0.5s;
 }
 
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
 .light a {
 	color: var(--dark-blue);
 }
