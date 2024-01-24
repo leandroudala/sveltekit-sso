@@ -121,6 +121,14 @@ section {
 	justify-content: space-between;
 }
 
+.text-right {
+	text-align: right;
+}
+
+.w-100 {
+	width: 100%;
+}
+
 @media (max-width: 600px) {
 	.container {
 		width: 100%;

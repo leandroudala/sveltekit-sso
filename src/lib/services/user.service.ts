@@ -21,7 +21,9 @@ export interface TokenDTO {
 }
 
 export interface UserDataDTO {
-    userId: number;
+    name: string;
+    email: string;
+    username: string;
     exp: number;
     iat: number;
     iss: string;

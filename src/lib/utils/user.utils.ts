@@ -32,3 +32,10 @@ export function getLoggedUser(cookie: Cookies): UserDataDTO | undefined {
 
     return getTokenData({token: cookieData} as TokenDTO);
 }
+
+export function logoff(cookie: Cookies) {
+    cookie.delete(COOKIE_AUTH_NAME, {
+        path: '/',
+        httpOnly: true
+    });
+}
