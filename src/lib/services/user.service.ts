@@ -27,10 +27,27 @@ export interface UserDataDTO {
     iss: string;
 }
 
-export default class UserService {
-    private url = PUBLIC_HOST + '/users';
-    private authUrl = PUBLIC_HOST + '/auth'
+export interface UserFormDTO {
+    name: string;
+    email: string;
+    username: string;
+    password: string;
+}
 
+export interface UserDTO {
+    name: string;
+    email: string;
+    username: string;
+}
+
+export default class UserService {
+    private url: string;
+    private authUrl: string;
+
+    constructor() {
+        this.url = PUBLIC_HOST + '/users';
+        this.authUrl = PUBLIC_HOST + '/auth';
+    }
 
     async checkAvailability(user: string): Promise<CheckAvailabilityResponseDTO> {
         if (!user) {
@@ -54,6 +71,16 @@ export default class UserService {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(credentials)
+        }).then(res => res.json());
+    }
+
+    async createUser(userData: UserFormDTO): Promise<ErrorDTO | UserDTO> {
+        return fetch(this.url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userData)
         }).then(res => res.json());
     }
 }

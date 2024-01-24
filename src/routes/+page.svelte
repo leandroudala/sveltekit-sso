@@ -56,28 +56,14 @@
 				<input type="text" class="input-text" name="username" id="username" bind:this={usernameInput} value={$usernameStore}>
 			</div>
 			<div class="buttons">
-				<a href="?/register" class="register">Criar conta</a>
-				<button type="submit" class="button-primary">Entrar</button>
+				<a href="/register" class="register">Criar conta</a>
+				<button type="submit" class="btn-primary">Entrar</button>
 			</div>
 		</form>
 	</div>
 </section>
 
 <style>
-	.container {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
-		margin: 0 auto;
-	}
-
-	.buttons {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-	}
-
 	.user-area, .buttons {
 		flex: 1;
 		width: 100%;

@@ -27,7 +27,6 @@
 #snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */
   min-width: 250px; /* Set a default minimum width */
-  margin-left: -125px; /* Divide value of min-width by 2 */
   background-color: #333; /* Black background color */
   color: #fff; /* White text color */
   text-align: center; /* Centered text */
@@ -36,6 +35,7 @@
   position: absolute; /* Sit on top of the screen */
   z-index: 1; /* Add a z-index if needed */
   left: 50%; /* Center the snackbar */
+  transform: translateX(-50%);
   bottom: var(--bottom-toast); /* 30px from the bottom */
 }
 

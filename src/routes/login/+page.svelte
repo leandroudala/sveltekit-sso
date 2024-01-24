@@ -82,14 +82,6 @@
 </section>
 
 <style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0 auto;
-    }
-
     .user-area {
         width: 100%;
     }

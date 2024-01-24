@@ -1,5 +1,5 @@
 import UserService from '$lib/services/user.service.js';
-import { getTokenData } from '$lib/utils/user.utils';
+import { setLogonCookies } from '$lib/utils/user.utils';
 import { fail } from '@sveltejs/kit';
 
 /** @type {import('./$types').Actions} */
@@ -25,13 +25,7 @@ export const actions = {
             return fail(400, {username, invalidCredentials: true});
         }
 
-        const tokenDecodedData = getTokenData(logonResponse);
-        const expiresInMilliseconds = tokenDecodedData.exp * 1000;
-        cookies.set('authorization', logonResponse.token, {
-            path: '/',
-            httpOnly: true,
-            expires: new Date(expiresInMilliseconds)
-        });
+        setLogonCookies(cookies, logonResponse);
 
         return { success: true };
     }
