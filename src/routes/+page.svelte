@@ -84,10 +84,6 @@
 
 	.register {
 		padding: 1em 0;
-		text-decoration: none;
-	}
-	.register:hover {
-		text-decoration: underline;
 	}
 
 </style>
